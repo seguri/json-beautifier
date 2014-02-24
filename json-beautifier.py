@@ -23,18 +23,18 @@ def is_json(s):
 class MainPage(webapp2.RequestHandler):
 
     def get(self):
-        return webapp2.Response('Make a POST with json=your_stringified_json to have it beautified.')
+        self.response.write('Make a POST with json=your_stringified_json to have it beautified.')
 
     def post(self):
         json_ = self.request.get('json')
         if json_ and is_json(json_):
             random_string = generate_random_string(length=16)
             if memcache.add(random_string, json_, MEMCACHE_EXPIRE):
-                return webapp2.Response('%s/%s' % (self.request.host, random_string))
+                self.response.write('%s/%s' % (self.request.host, random_string))
             else:
-                self.abort(500)
+                self.response.write('ERROR: Could not set cache.')
         else:
-            return webapp2.Response('ERROR: You must provide a valid json.')
+            self.response.write('ERROR: You must provide a valid json.')
 
 
 class CacheHandler(webapp2.RequestHandler):
@@ -43,9 +43,10 @@ class CacheHandler(webapp2.RequestHandler):
         cached = memcache.get(key)
         if cached:
             template = JINJA_ENVIRONMENT.get_template('templates/beautified.html')
-            return webapp2.Response(template.render({'json': cached}))
+            self.response.write(template.render({'json': cached}))
         else:
-            self.abort(404)
+            self.response.set_status(404)
+            self.response('ERROR: Could not find element "%s" in cache.' % key)
 
 urls = (
     (r'/', MainPage),
