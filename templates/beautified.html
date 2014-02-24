@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>JSON Beautifier</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/json-beautifier.css" />
+    <script src="/static/js/append-code.js"></script>
+    <script src="/static/js/syntax-highlight.js"></script>
+</head>
+<body>
+<script>
+    var json = JSON.stringify({{ json }}, null, 4);
+    appendCode(syntaxHighlight(json));
+</script>
+</body>
+</html>
