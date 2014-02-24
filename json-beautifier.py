@@ -5,7 +5,7 @@ import json
 import os
 import webapp2
 
-MEMCACHE_EXPIRE = 5 * 60 # seconds
+MEMCACHE_EXPIRE = 24 * 60 * 60 # seconds
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
