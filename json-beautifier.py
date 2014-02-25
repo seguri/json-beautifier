@@ -43,7 +43,18 @@ class CacheHandler(webapp2.RequestHandler):
         cached = memcache.get(key)
         if cached:
             template = JINJA_ENVIRONMENT.get_template('templates/beautified.html')
-            self.response.write(template.render({'json': cached}))
+            self.response.write(template.render(json=cached))
+        else:
+            self.response.set_status(404)
+            self.response('ERROR: Could not find element "%s" in cache.' % key)
+
+class RawCacheHandler(webapp2.RequestHandler):
+
+    def get(self, key):
+        cached = memcache.get(key)
+        if cached:
+            self.response.headers['Content-Type'] = 'application/json'
+            self.response.write(cached)
         else:
             self.response.set_status(404)
             self.response('ERROR: Could not find element "%s" in cache.' % key)
@@ -51,5 +62,6 @@ class CacheHandler(webapp2.RequestHandler):
 urls = (
     (r'/', MainPage),
     (r'/(\w+)', CacheHandler),
+    (r'/raw/(\w+)', RawCacheHandler),
 )
 application = webapp2.WSGIApplication(urls, debug=True)
