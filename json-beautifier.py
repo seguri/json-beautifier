@@ -29,7 +29,8 @@ class MainPage(webapp2.RequestHandler):
         json_ = self.request.get('json')
         if json_ and is_json(json_):
             random_string = generate_random_string(length=16)
-            if memcache.add(random_string, json_, MEMCACHE_EXPIRE):
+            stripped_json = json.dumps(json.loads(json_))
+            if memcache.add(random_string, stripped_json, MEMCACHE_EXPIRE):
                 self.response.write('%s/%s' % (self.request.host, random_string))
             else:
                 self.response.write('ERROR: Could not set cache.')
