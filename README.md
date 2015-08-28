@@ -1,4 +1,4 @@
 json-beautifier
 ===============
 
-an appengine service to beautify POSTed JSON
+an [appengine service](http://h3djsqi.appspot.com) to beautify POSTed JSON
