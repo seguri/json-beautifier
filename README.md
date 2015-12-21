@@ -10,7 +10,7 @@ location|description
 --------|-----------
 `GET /`|Home page
 `POST /?json={}`|Beautify input -- returns a key to access cached json
-`GET /YJMfTne3vlnX3Il1`|Return beutified cached json
+`GET /YJMfTne3vlnX3Il1`|Return beautified cached json
 `GET /raw/YJMfTne3vlnX3Il1`|Return raw cached json
 
 notes
